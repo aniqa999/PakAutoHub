@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Used Cars in Pakistan - PakWheels</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .used-cars-hero {
+      background: #234077;
+      color: #fff;
+      padding: 0 0 56px 0;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .used-cars-hero::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      background: url('https://www.transparenttextures.com/patterns/diamond-upholstery.png');
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .used-cars-hero h1 {
+      font-size: 2.1rem;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      margin-bottom: 6px;
+      background: none;
+      color: #fff;
+      text-shadow: 0 2px 8px #0002;
+      position: relative;
+      z-index: 1;
+      margin-top: 48px;
+    }
+    .used-cars-hero p {
+      font-size: 1.08rem;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #fffbe7;
+      margin-bottom: 32px;
+      text-shadow: 0 2px 8px #0003;
+      position: relative;
+      z-index: 1;
+    }
+    .search-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 32px 32px 18px 32px;
+      margin: 0 auto;
+      max-width: 700px;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .search-bar-row {
+      display: flex;
+      gap: 18px;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+    }
+    .search-bar-row select, .search-bar-row input {
+      padding: 12px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      outline: none;
+      min-width: 160px;
+      background: #fff;
+      color: #222;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    .search-bar-row select:focus, .search-bar-row input:focus {
+      border: 1.5px solid #234077;
+      box-shadow: 0 0 0 2px #23407722;
+    }
+    .search-bar-row button {
+      background: #2ecc40;
+      color: #fff;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 6px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 1px 4px #2ecc4022;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .search-bar-row button:hover {
+      background: #27ae60;
+    }
+    .more-search-link {
+      color: #234077;
+      font-size: 1rem;
+      margin-top: 12px;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      text-decoration: underline;
+      font-weight: 600;
+      transition: color 0.2s;
+      display: inline-block;
+    }
+    .more-search-link:hover {
+      color: #e4002b;
+    }
+    /* Unique form below hero */
+    .quick-ad-form {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      max-width: 700px;
+      margin: -40px auto 32px auto;
+      padding: 28px 24px 18px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 3;
+      animation: fadeInUp 0.7s;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .quick-ad-form h3 {
+      color: #003366;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: 0.5px;
+    }
+    .quick-ad-fields {
+      display: flex;
+      gap: 14px;
+      width: 100%;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .quick-ad-fields input, .quick-ad-fields select {
+      padding: 10px 12px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      outline: none;
+      min-width: 140px;
+      background: #f7f7f7;
+      color: #222;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    .quick-ad-fields input:focus, .quick-ad-fields select:focus {
+      border: 1.5px solid #e4002b;
+      box-shadow: 0 0 0 2px #e4002b22;
+    }
+    .quick-ad-form button {
+      background: #e4002b;
+      color: #fff;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 6px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+      box-shadow: 0 1px 4px #e4002b22;
+    }
+    .quick-ad-form button:hover {
+      background: #003366;
+    }
+    .quick-ad-form-desc {
+      color: #666;
+      font-size: 0.98rem;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    @media (max-width: 900px) {
+      .search-card, .quick-ad-form { max-width: 98vw; min-width: 0; }
+      .search-bar-row { flex-direction: column; gap: 12px; }
+      .quick-ad-fields { flex-direction: column; gap: 10px; }
+    }
+    .used-cars-main {
+      display: flex;
+      gap: 32px;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 32px 16px 0 16px;
+    }
+    .filters-sidebar {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+      padding: 24px 18px 18px 18px;
+      min-width: 260px;
+      max-width: 300px;
+      flex-shrink: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+    .filter-group {
+      margin-bottom: 24px;
+    }
+    .filter-group label {
+      font-weight: 600;
+      color: #003366;
+      margin-bottom: 6px;
+      display: block;
+      font-size: 1.05rem;
+    }
+    .filter-group select, .filter-group input[type="text"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #e0e0e0;
+      margin-top: 4px;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+    .filter-group input[type="checkbox"] {
+      margin-right: 8px;
+    }
+    .filters-sidebar .filter-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .filters-sidebar .filter-actions button {
+      flex: 1;
+      padding: 8px 0;
+      border-radius: 6px;
+      border: none;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #003366;
+      color: #fff;
+      transition: background 0.2s;
+    }
+    .filters-sidebar .filter-actions button:hover {
+      background: #e4002b;
+    }
+    .car-listings {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+    }
+    .car-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s, transform 0.2s;
+      position: relative;
+    }
+    .car-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+      transform: translateY(-4px) scale(1.02);
+    }
+    .car-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #f7f7f7;
+    }
+    .car-card-content {
+      padding: 18px 16px 14px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .car-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #003366;
+      margin-bottom: 2px;
+      font-family: 'Montserrat', Arial, sans-serif;
+    }
+    .car-card-price {
+      color: #e4002b;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .car-card-meta {
+      color: #666;
+      font-size: 0.98rem;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .car-card-badges {
+      margin-top: 6px;
+      display: flex;
+      gap: 8px;
+    }
+    .car-badge {
+      background: #e4002b;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 10px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 4px #e4002b22;
+    }
+    .car-badge.certified {
+      background: #003366;
+    }
+    .car-card-actions {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .car-card-actions button {
+      background: #003366;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 18px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .car-card-actions button:hover {
+      background: #e4002b;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin: 40px 0 0 0;
+    }
+    .pagination-btn {
+      background: #fff;
+      border: 1.5px solid #e0e0e0;
+      color: #003366;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border-radius: 6px;
+      padding: 7px 16px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .pagination-btn.active, .pagination-btn:hover {
+      background: #003366;
+      color: #fff;
+      border-color: #003366;
+    }
+    .featured-dealers, .car-advice {
+      max-width: 1300px;
+      margin: 48px auto 0 auto;
+      padding: 0 16px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .featured-dealers {
+      align-items: flex-start;
+    }
+    .dealer-card, .advice-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 22px 18px 18px 18px;
+      min-width: 260px;
+      max-width: 340px;
+      flex: 1;
+      margin-bottom: 18px;
+    }
+    .dealer-card h4, .advice-card h4 {
+      color: #003366;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .dealer-card p, .advice-card p {
+      color: #666;
+      font-size: 0.98rem;
+    }
+    /* Car Details Modal */
+    .car-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,51,102,0.55);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s;
+    }
+    .car-modal-overlay.active {
+      display: flex;
+    }
+    .car-modal {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      max-width: 420px;
+      width: 95vw;
+      padding: 0 0 18px 0;
+      position: relative;
+      animation: modalIn 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+      overflow: hidden;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(40px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .car-modal img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      border-radius: 16px 16px 0 0;
+      background: #f7f7f7;
+    }
+    .car-modal-content {
+      padding: 18px 18px 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .car-modal-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #003366;
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin-bottom: 2px;
+    }
+    .car-modal-price {
+      color: #e4002b;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .car-modal-meta {
+      color: #666;
+      font-size: 0.98rem;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .car-modal-badges {
+      margin-top: 6px;
+      display: flex;
+      gap: 8px;
+    }
+    .car-modal-badge {
+      background: #e4002b;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 10px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 4px #e4002b22;
+    }
+    .car-modal-badge.certified {
+      background: #003366;
+    }
+    .car-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      font-size: 1.5rem;
+      color: #e4002b;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      z-index: 2;
+      transition: color 0.2s;
+    }
+    .car-modal-close:hover {
+      color: #003366;
+    }
+    @media (max-width: 1100px) {
+      .used-cars-main { flex-direction: column; }
+      .filters-sidebar { max-width: 100%; min-width: 0; margin-bottom: 32px; }
+    }
+    @media (max-width: 700px) {
+      .car-listings { grid-template-columns: 1fr; }
+      .featured-dealers, .car-advice { flex-direction: column; gap: 18px; }
+    }
+    .car-grid-section {
+      max-width: 1200px;
+      margin: 0 auto 32px auto;
+      padding: 0 16px;
+    }
+    .car-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 28px;
+      margin-bottom: 32px;
+    }
+    .car-grid .car-card {
+      cursor: pointer;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .car-grid .car-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.16);
+      transform: translateY(-4px) scale(1.03);
+    }
+    /* Attractive form below car grid */
+    .quick-inquiry-form {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      max-width: 600px;
+      margin: 0 auto 32px auto;
+      padding: 28px 24px 18px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 3;
+      animation: fadeInUp 0.7s;
+    }
+    .quick-inquiry-form h3 {
+      color: #003366;
+      font-size: 1.22rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+    .quick-inquiry-desc {
+      color: #666;
+      font-size: 0.98rem;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .quick-inquiry-fields {
+      display: flex;
+      gap: 14px;
+      width: 100%;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .quick-inquiry-fields input, .quick-inquiry-fields select {
+      padding: 10px 12px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1rem;
+      outline: none;
+      min-width: 140px;
+      background: #f7f7f7;
+      color: #222;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    .quick-inquiry-fields input:focus, .quick-inquiry-fields select:focus {
+      border: 1.5px solid #e4002b;
+      box-shadow: 0 0 0 2px #e4002b22;
+    }
+    .quick-inquiry-form button {
+      background: #2ecc40;
+      color: #fff;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 6px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+      box-shadow: 0 1px 4px #2ecc4022;
+    }
+    .quick-inquiry-form button:hover {
+      background: #003366;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header/Nav -->
+  <header>
+    <a href="#" class="logo">PakWheels</a>
+    <nav>
+      <ul>
+        <li><a href="#">Used Cars</a></li>
+        <li><a href="#">New Cars</a></li>
+        <li><a href="#">Bikes</a></li>
+        <li><a href="#">Auto Store</a></li>
+        <li><a href="#">Videos</a></li>
+        <li><a href="#">Forums</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">More</a></li>
+      </ul>
+    </nav>
+    <div class="auth-btns">
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn">Sign Up</button>
+      <button class="post-ad-btn" id="postAdBtn">Post an Ad</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="used-cars-hero">
+    <h1>Find Used Cars in Pakistan</h1>
+    <p>With thousands of cars, we have just the right one for you</p>
+    <div class="search-card">
+      <form class="search-bar-row" id="mainSearchForm">
+        <input type="text" id="mainModel" placeholder="Car Make or Model">
+        <select id="mainCity"><option>All Cities</option><option>Karachi</option><option>Lahore</option><option>Islamabad</option></select>
+        <select id="mainPrice"><option>Price Range</option><option>0-10 Lakh</option><option>10-20 Lakh</option><option>20-30 Lakh</option></select>
+        <button type="submit">Search</button>
+      </form>
+      <a class="more-search-link" href="#">More Search Options</a>
+    </div>
+  </section>
+
+  <!-- Unique form below hero -->
+  <section class="car-grid-section">
+    <div class="car-grid">
+      <!-- 8 demo car cards -->
+      <div class="car-card" data-title="Toyota Corolla Altis Grande 2022" data-price="PKR 5,200,000" data-meta="Lahore • 2022 • 18,000 km" data-desc="A well-maintained Toyota Corolla with full service history, excellent fuel economy, and a comfortable ride. Perfect for families and daily commuting.">
+        <img src="https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&w=600" alt="Toyota Corolla">
+        <div class="car-card-content">
+          <div class="car-card-title">Toyota Corolla Altis Grande 2022</div>
+          <div class="car-card-price">PKR 5,200,000</div>
+          <div class="car-card-meta">Lahore • 2022 • 18,000 km</div>
+        </div>
+      </div>
+      <div class="car-card" data-title="Honda Civic Oriel 2021" data-price="PKR 4,800,000" data-meta="Karachi • 2021 • 25,000 km" data-desc="Sporty and stylish Honda Civic with advanced features, smooth drive, and low mileage. Ideal for city and highway travel.">
+        <img src="https://images.pexels.com/photos/170782/pexels-photo-170782.jpeg?auto=compress&w=600" alt="Honda Civic">
+        <div class="car-card-content">
+          <div class="car-card-title">Honda Civic Oriel 2021</div>
+          <div class="car-card-price">PKR 4,800,000</div>
+          <div class="car-card-meta">Karachi • 2021 • 25,000 km</div>
+        </div>
+      </div>
+      <div class="car-card" data-title="Suzuki Alto VXR 2023" data-price="PKR 2,200,000" data-meta="Islamabad • 2023 • 5,000 km" data-desc="Compact and fuel-efficient Suzuki Alto, perfect for city driving. Almost new with very low mileage.">
+        <img src="https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&w=600" alt="Suzuki Alto">
+        <div class="car-card-content">
+          <div class="car-card-title">Suzuki Alto VXR 2023</div>
+          <div class="car-card-price">PKR 2,200,000</div>
+          <div class="car-card-meta">Islamabad • 2023 • 5,000 km</div>
+        </div>
+      </div>
+      <div class="car-card" data-title="Suzuki Cultus VXL 2020" data-price="PKR 2,000,000" data-meta="Faisalabad • 2020 • 30,000 km" data-desc="Reliable Suzuki Cultus with spacious interior, great for families. Well-kept and ready for a new owner.">
+        <img src="https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&w=600" alt="Suzuki Cultus">
+        <div class="car-card-content">
+          <div class="car-card-title">Suzuki Cultus VXL 2020</div>
+          <div class="car-card-price">PKR 2,000,000</div>
+          <div class="car-card-meta">Faisalabad • 2020 • 30,000 km</div>
+        </div>
+      </div>
+      <div class="car-card" data-title="Toyota Vitz F 2019" data-price="PKR 2,800,000" data-meta="Multan • 2019 • 40,000 km" data-desc="Toyota Vitz in excellent condition, known for its reliability and comfort. Great for daily use and long drives.">
+        <img src="https://images.pexels.com/photos/170782/pexels-photo-170782.jpeg?auto=compress&w=600" alt="Toyota Vitz">
+        <div class="car-card-content">
+          <div class="car-card-title">Toyota Vitz F 2019</div>
+          <div class="car-card-price">PKR 2,800,000</div>
+          <div class="car-card-meta">Multan • 2019 • 40,000 km</div>
+        </div>
+      </div>
+      <div class="car-card" data-title="Honda City Aspire 2018" data-price="PKR 2,400,000" data-meta="Peshawar • 2018 • 60,000 km" data-desc="Honda City Aspire with a powerful engine and comfortable seating. Maintained with care, ready for a new journey.">
+        <img src="https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&w=600" alt="Honda City">
+        <div class="car-card-content">
+          <div class="car-card-title">Honda City Aspire 2018</div>
+          <div class="car-card-price">PKR 2,400,000</div>
+          <div class="car-card-meta">Peshawar • 2018 • 60,000 km</div>
+        </div>
+      </div>
+      <div class="car-card" data-title="Hyundai Elantra 2022" data-price="PKR 4,200,000" data-meta="Lahore • 2022 • 12,000 km" data-desc="Hyundai Elantra with advanced features, stylish design, and low mileage. A premium sedan for a premium experience.">
+        <img src="https://images.pexels.com/photos/170782/pexels-photo-170782.jpeg?auto=compress&w=600" alt="Hyundai Elantra">
+        <div class="car-card-content">
+          <div class="car-card-title">Hyundai Elantra 2022</div>
+          <div class="car-card-price">PKR 4,200,000</div>
+          <div class="car-card-meta">Lahore • 2022 • 12,000 km</div>
+        </div>
+      </div>
+      <div class="car-card" data-title="Kia Picanto 2021" data-price="PKR 2,100,000" data-meta="Karachi • 2021 • 15,000 km" data-desc="Kia Picanto, compact yet spacious, with modern features and excellent fuel efficiency. Perfect for city life.">
+        <img src="https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&w=600" alt="Kia Picanto">
+        <div class="car-card-content">
+          <div class="car-card-title">Kia Picanto 2021</div>
+          <div class="car-card-price">PKR 2,100,000</div>
+          <div class="car-card-meta">Karachi • 2021 • 15,000 km</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Attractive form below car grid -->
+  <form class="quick-inquiry-form" id="quickInquiryForm">
+    <h3>Get Updates on New Arrivals</h3>
+    <div class="quick-inquiry-desc">Subscribe to receive alerts for the latest used cars matching your preferences.</div>
+    <div class="quick-inquiry-fields">
+      <input type="text" id="inqName" placeholder="Your Name" required>
+      <input type="email" id="inqEmail" placeholder="Your Email" required>
+      <select id="inqCity"><option value="">Preferred City</option><option>Karachi</option><option>Lahore</option><option>Islamabad</option></select>
+    </div>
+    <button type="submit">Subscribe</button>
+  </form>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button class="pagination-btn active">1</button>
+    <button class="pagination-btn">2</button>
+    <button class="pagination-btn">3</button>
+    <button class="pagination-btn">Next &gt;</button>
+  </div>
+
+  <!-- Featured Dealers & Car Advice -->
+  <section class="featured-dealers">
+    <div class="dealer-card">
+      <h4>Featured Dealer: AutoHub Motors</h4>
+      <p>Top rated dealer in Lahore. 100+ cars in stock. Certified and inspected vehicles.</p>
+    </div>
+    <div class="dealer-card">
+      <h4>Featured Dealer: City Cars</h4>
+      <p>Trusted by thousands in Karachi. Best prices and after-sales support.</p>
+    </div>
+    <div class="dealer-card">
+      <h4>Featured Dealer: Islamabad Motors</h4>
+      <p>Premium selection of used cars in Islamabad. Verified listings only.</p>
+    </div>
+  </section>
+  <section class="car-advice">
+    <div class="advice-card">
+      <h4>How To Buy A Used Car – A Complete Guide!</h4>
+      <p>Buying a car can be daunting. Read our complete guide to make the right choice and avoid common mistakes.</p>
+    </div>
+    <div class="advice-card">
+      <h4>Important Documents To Check Before Buying</h4>
+      <p>Know which documents to check before you buy a car in Pakistan to avoid legal and financial issues.</p>
+    </div>
+    <div class="advice-card">
+      <h4>Things To Do After Buying A Used Car!</h4>
+      <p>Checklist of things to do after you buy a used car to ensure safety and reliability.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">FAQs</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+    <div>&copy; 2003 - 2025 PakWheels (Pvt) Ltd. - All Rights Reserved.</div>
+  </footer>
+
+  <!-- Car Details Modal -->
+  <div class="car-modal-overlay" id="carModalOverlay">
+    <div class="car-modal" id="carModal">
+      <button class="car-modal-close" id="carModalClose">&times;</button>
+      <img src="" alt="Car" id="carModalImg">
+      <div class="car-modal-content">
+        <div class="car-modal-title" id="carModalTitle"></div>
+        <div class="car-modal-price" id="carModalPrice"></div>
+        <div class="car-modal-meta" id="carModalMeta"></div>
+        <div class="car-modal-badges" id="carModalBadges"></div>
+        <div class="car-modal-desc" id="carModalDesc"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Demo: Modal logic for login/signup/post ad (reuse from home.html if needed)
+    // Demo: Filter and pagination interactivity can be added here
+    // Car Details Modal Logic (for new grid)
+    const carModalOverlay = document.getElementById('carModalOverlay');
+    const carModalClose = document.getElementById('carModalClose');
+    const carModalImg = document.getElementById('carModalImg');
+    const carModalTitle = document.getElementById('carModalTitle');
+    const carModalPrice = document.getElementById('carModalPrice');
+    const carModalMeta = document.getElementById('carModalMeta');
+    const carModalBadges = document.getElementById('carModalBadges');
+    const carModalDesc = document.getElementById('carModalDesc');
+    document.querySelectorAll('.car-grid .car-card').forEach(card => {
+      card.onclick = function() {
+        carModalImg.src = card.querySelector('img').src;
+        carModalTitle.textContent = card.getAttribute('data-title');
+        carModalPrice.textContent = card.getAttribute('data-price');
+        carModalMeta.textContent = card.getAttribute('data-meta');
+        carModalBadges.innerHTML = '';
+        carModalDesc.textContent = card.getAttribute('data-desc');
+        carModalOverlay.classList.add('active');
+      };
+    });
+    carModalClose.onclick = function() {
+      carModalOverlay.classList.remove('active');
+    };
+    carModalOverlay.onclick = function(e) {
+      if(e.target === carModalOverlay) carModalOverlay.classList.remove('active');
+    };
+    // Main search bar demo functionality
+    document.getElementById('mainSearchForm').onsubmit = function(e) {
+      e.preventDefault();
+      const model = document.getElementById('mainModel').value;
+      const city = document.getElementById('mainCity').value;
+      const price = document.getElementById('mainPrice').value;
+      alert(`Search: Model=${model}, City=${city}, Price=${price}`);
+    };
+    // Quick inquiry form demo functionality
+    document.getElementById('quickInquiryForm').onsubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('inqName').value;
+      const email = document.getElementById('inqEmail').value;
+      const city = document.getElementById('inqCity').value;
+      alert(`Subscribed!\nName: ${name}\nEmail: ${email}\nCity: ${city}`);
+    };
+  </script>
+</body>
+</html> 

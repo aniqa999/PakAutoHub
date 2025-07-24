@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sedan Cars for Sale in Pakistan - PakWheels</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .used-cars-hero {
+      background: linear-gradient(120deg, #003366 60%, #e4002b 100%);
+      color: #fff;
+      padding: 72px 0 56px 0;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .used-cars-hero::before {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      background: url('https://www.transparenttextures.com/patterns/diamond-upholstery.png');
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .used-cars-hero h1 {
+      font-size: 2.5rem;
+      font-family: 'Montserrat', Arial, sans-serif;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #fff 60%, #ffe0e6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      text-shadow: 0 2px 8px #0002;
+      position: relative;
+      z-index: 1;
+    }
+    .used-cars-hero p {
+      font-size: 1.2rem;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #fffbe7;
+      margin-bottom: 28px;
+      text-shadow: 0 2px 8px #0003;
+      position: relative;
+      z-index: 1;
+    }
+    .used-cars-search {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 10px;
+      width: auto;
+      background: rgba(255,255,255,0.13);
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+      padding: 0 8px;
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+    }
+    .used-cars-search select, .used-cars-search input {
+      padding: 8px 10px;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+      border-radius: 8px;
+      margin-right: 8px;
+      transition: box-shadow 0.2s, border 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .used-cars-search select {
+      background: #fff;
+      color: #222;
+      min-width: 110px;
+    }
+    .used-cars-search input[type="text"] {
+      width: 110px;
+    }
+    .used-cars-search input[type="text"]:focus, .used-cars-search select:focus {
+      box-shadow: 0 0 0 2px #e4002b44;
+      border: 1.5px solid #e4002b;
+    }
+    .used-cars-search button {
+      background: #e4002b;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 4px #e4002b22;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .used-cars-search button:hover {
+      background: #b80020;
+      box-shadow: 0 2px 12px #e4002b33;
+    }
+    .used-cars-main {
+      display: flex;
+      gap: 32px;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 32px 16px 0 16px;
+    }
+    @media (max-width: 1100px) {
+      .used-cars-main { flex-direction: column; }
+      .filters-sidebar { max-width: 100%; min-width: 0; margin-bottom: 32px; }
+    }
+    @media (max-width: 700px) {
+      .car-listings { grid-template-columns: 1fr; }
+      .featured-dealers, .car-advice { flex-direction: column; gap: 18px; }
+    }
+    /* Car Details Modal */
+    .car-modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,51,102,0.55);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s;
+    }
+    .car-modal-overlay.active {
+      display: flex;
+    }
+    .car-modal {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      max-width: 420px;
+      width: 95vw;
+      padding: 0 0 18px 0;
+      position: relative;
+      animation: modalIn 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+      overflow: hidden;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(40px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .car-modal img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      border-radius: 16px 16px 0 0;
+      background: #f7f7f7;
+    }
+    .car-modal-content {
+      padding: 18px 18px 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .car-modal-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #003366;
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin-bottom: 2px;
+    }
+    .car-modal-price {
+      color: #e4002b;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .car-modal-meta {
+      color: #666;
+      font-size: 0.98rem;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .car-modal-badges {
+      margin-top: 6px;
+      display: flex;
+      gap: 8px;
+    }
+    .car-modal-badge {
+      background: #e4002b;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 2px 10px;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 4px #e4002b22;
+    }
+    .car-modal-badge.certified {
+      background: #003366;
+    }
+    .car-modal-close {
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      font-size: 1.5rem;
+      color: #e4002b;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 900;
+      z-index: 2;
+      transition: color 0.2s;
+    }
+    .car-modal-close:hover {
+      color: #003366;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header/Nav -->
+  <header>
+    <a href="#" class="logo">PakWheels</a>
+    <nav>
+      <ul>
+        <li><a href="used-cars.html">Used Cars</a></li>
+        <li><a href="#">New Cars</a></li>
+        <li><a href="#">Bikes</a></li>
+        <li><a href="#">Auto Store</a></li>
+        <li><a href="#">Videos</a></li>
+        <li><a href="#">Forums</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">More</a></li>
+      </ul>
+    </nav>
+    <div class="auth-btns">
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn">Sign Up</button>
+      <button class="post-ad-btn" id="postAdBtn">Post an Ad</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="used-cars-hero">
+    <h1>Sedan Cars for Sale in Pakistan</h1>
+    <p>Browse the best selection of sedan cars from all over Pakistan</p>
+    <form class="used-cars-search" id="sedanSearchForm">
+      <select id="city"><option>All Cities</option><option>Karachi</option><option>Lahore</option><option>Islamabad</option></select>
+      <select id="make"><option>All Makes</option><option>Toyota</option><option>Honda</option><option>Suzuki</option></select>
+      <select id="model"><option>All Models</option><option>Corolla</option><option>Civic</option><option>City</option></select>
+      <input type="text" id="minPrice" placeholder="Min Price">
+      <input type="text" id="maxPrice" placeholder="Max Price">
+      <button type="submit"><i class="ph ph-magnifying-glass"></i> Search</button>
+    </form>
+  </section>
+
+  <main class="used-cars-main">
+    <!-- Filters Sidebar -->
+    <aside class="filters-sidebar">
+      <div class="filter-group">
+        <label>City</label>
+        <select><option>All Cities</option><option>Karachi</option><option>Lahore</option><option>Islamabad</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Make</label>
+        <select><option>All Makes</option><option>Toyota</option><option>Honda</option><option>Suzuki</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Model</label>
+        <select><option>All Models</option><option>Corolla</option><option>Civic</option><option>City</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Price Range</label>
+        <input type="text" placeholder="Min Price">
+        <input type="text" placeholder="Max Price">
+      </div>
+      <div class="filter-group">
+        <label>Year</label>
+        <select><option>All Years</option><option>2025</option><option>2024</option><option>2023</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Body Type</label>
+        <select><option selected>Sedan</option><option>SUV</option><option>Hatchback</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Transmission</label>
+        <select><option>Any</option><option>Automatic</option><option>Manual</option></select>
+      </div>
+      <div class="filter-group">
+        <label>Color</label>
+        <select><option>Any</option><option>White</option><option>Black</option><option>Silver</option></select>
+      </div>
+      <div class="filter-actions">
+        <button type="button">Apply</button>
+        <button type="button">Reset</button>
+      </div>
+    </aside>
+
+    <!-- Car Listings Grid -->
+    <section class="car-listings">
+      <!-- Demo sedan car cards -->
+      <div class="car-card">
+        <img src="https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&w=600" alt="Toyota Corolla">
+        <div class="car-card-content">
+          <div class="car-card-title">Toyota Corolla Altis Grande 2022</div>
+          <div class="car-card-price">PKR 5,200,000</div>
+          <div class="car-card-meta">Lahore &bull; 2022 &bull; 18,000 km</div>
+          <div class="car-card-badges"><span class="car-badge">Featured</span><span class="car-badge certified">Certified</span></div>
+          <div class="car-card-actions"><button>View Details</button></div>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="https://images.pexels.com/photos/170782/pexels-photo-170782.jpeg?auto=compress&w=600" alt="Honda Civic">
+        <div class="car-card-content">
+          <div class="car-card-title">Honda Civic Oriel 2021</div>
+          <div class="car-card-price">PKR 4,800,000</div>
+          <div class="car-card-meta">Karachi &bull; 2021 &bull; 25,000 km</div>
+          <div class="car-card-badges"><span class="car-badge">Featured</span></div>
+          <div class="car-card-actions"><button>View Details</button></div>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&w=600" alt="Honda City">
+        <div class="car-card-content">
+          <div class="car-card-title">Honda City Aspire 2018</div>
+          <div class="car-card-price">PKR 2,400,000</div>
+          <div class="car-card-meta">Peshawar &bull; 2018 &bull; 60,000 km</div>
+          <div class="car-card-badges"></div>
+          <div class="car-card-actions"><button>View Details</button></div>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="https://images.pexels.com/photos/170782/pexels-photo-170782.jpeg?auto=compress&w=600" alt="Toyota Premio">
+        <div class="car-card-content">
+          <div class="car-card-title">Toyota Premio 2017</div>
+          <div class="car-card-price">PKR 3,800,000</div>
+          <div class="car-card-meta">Islamabad &bull; 2017 &bull; 45,000 km</div>
+          <div class="car-card-badges"></div>
+          <div class="car-card-actions"><button>View Details</button></div>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="https://images.pexels.com/photos/358070/pexels-photo-358070.jpeg?auto=compress&w=600" alt="Suzuki Ciaz">
+        <div class="car-card-content">
+          <div class="car-card-title">Suzuki Ciaz 2019</div>
+          <div class="car-card-price">PKR 2,600,000</div>
+          <div class="car-card-meta">Faisalabad &bull; 2019 &bull; 38,000 km</div>
+          <div class="car-card-badges"></div>
+          <div class="car-card-actions"><button>View Details</button></div>
+        </div>
+      </div>
+      <div class="car-card">
+        <img src="https://images.pexels.com/photos/170782/pexels-photo-170782.jpeg?auto=compress&w=600" alt="Hyundai Elantra">
+        <div class="car-card-content">
+          <div class="car-card-title">Hyundai Elantra 2022</div>
+          <div class="car-card-price">PKR 4,200,000</div>
+          <div class="car-card-meta">Multan &bull; 2022 &bull; 12,000 km</div>
+          <div class="car-card-badges"></div>
+          <div class="car-card-actions"><button>View Details</button></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <button class="pagination-btn active">1</button>
+    <button class="pagination-btn">2</button>
+    <button class="pagination-btn">3</button>
+    <button class="pagination-btn">Next &gt;</button>
+  </div>
+
+  <!-- Featured Dealers & Car Advice -->
+  <section class="featured-dealers">
+    <div class="dealer-card">
+      <h4>Featured Dealer: AutoHub Motors</h4>
+      <p>Top rated dealer in Lahore. 100+ cars in stock. Certified and inspected vehicles.</p>
+    </div>
+    <div class="dealer-card">
+      <h4>Featured Dealer: City Cars</h4>
+      <p>Trusted by thousands in Karachi. Best prices and after-sales support.</p>
+    </div>
+    <div class="dealer-card">
+      <h4>Featured Dealer: Islamabad Motors</h4>
+      <p>Premium selection of used cars in Islamabad. Verified listings only.</p>
+    </div>
+  </section>
+  <section class="car-advice">
+    <div class="advice-card">
+      <h4>How To Buy A Used Car – A Complete Guide!</h4>
+      <p>Buying a car can be daunting. Read our complete guide to make the right choice and avoid common mistakes.</p>
+    </div>
+    <div class="advice-card">
+      <h4>Important Documents To Check Before Buying</h4>
+      <p>Know which documents to check before you buy a car in Pakistan to avoid legal and financial issues.</p>
+    </div>
+    <div class="advice-card">
+      <h4>Things To Do After Buying A Used Car!</h4>
+      <p>Checklist of things to do after you buy a used car to ensure safety and reliability.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+      <a href="#">FAQs</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+    <div>&copy; 2003 - 2025 PakWheels (Pvt) Ltd. - All Rights Reserved.</div>
+  </footer>
+
+  <!-- Car Details Modal -->
+  <div class="car-modal-overlay" id="carModalOverlay">
+    <div class="car-modal" id="carModal">
+      <button class="car-modal-close" id="carModalClose">&times;</button>
+      <img src="" alt="Car" id="carModalImg">
+      <div class="car-modal-content">
+        <div class="car-modal-title" id="carModalTitle"></div>
+        <div class="car-modal-price" id="carModalPrice"></div>
+        <div class="car-modal-meta" id="carModalMeta"></div>
+        <div class="car-modal-badges" id="carModalBadges"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Demo: Modal logic for login/signup/post ad (reuse from home.html if needed)
+    // Demo: Filter and pagination interactivity can be added here
+    // Car Details Modal Logic
+    const carModalOverlay = document.getElementById('carModalOverlay');
+    const carModalClose = document.getElementById('carModalClose');
+    const carModalImg = document.getElementById('carModalImg');
+    const carModalTitle = document.getElementById('carModalTitle');
+    const carModalPrice = document.getElementById('carModalPrice');
+    const carModalMeta = document.getElementById('carModalMeta');
+    const carModalBadges = document.getElementById('carModalBadges');
+    document.querySelectorAll('.car-card').forEach(card => {
+      card.querySelector('.car-card-actions button').onclick = function() {
+        carModalImg.src = card.querySelector('img').src;
+        carModalTitle.textContent = card.querySelector('.car-card-title').textContent;
+        carModalPrice.textContent = card.querySelector('.car-card-price').textContent;
+        carModalMeta.textContent = card.querySelector('.car-card-meta').textContent;
+        carModalBadges.innerHTML = '';
+        card.querySelectorAll('.car-badge, .car-badge.certified').forEach(badge => {
+          const span = document.createElement('span');
+          span.className = 'car-modal-badge' + (badge.classList.contains('certified') ? ' certified' : '');
+          span.textContent = badge.textContent;
+          carModalBadges.appendChild(span);
+        });
+        carModalOverlay.classList.add('active');
+      };
+    });
+    carModalClose.onclick = function() {
+      carModalOverlay.classList.remove('active');
+    };
+    carModalOverlay.onclick = function(e) {
+      if(e.target === carModalOverlay) carModalOverlay.classList.remove('active');
+    };
+
+    // Sedan search form demo functionality
+    document.getElementById('sedanSearchForm').onsubmit = function(e) {
+      e.preventDefault();
+      const city = document.getElementById('city').value;
+      const make = document.getElementById('make').value;
+      const model = document.getElementById('model').value;
+      const minPrice = document.getElementById('minPrice').value;
+      const maxPrice = document.getElementById('maxPrice').value;
+      alert(`Search: City=${city}, Make=${make}, Model=${model}, Min Price=${minPrice}, Max Price=${maxPrice}`);
+    };
+  </script>
+</body>
+</html> 

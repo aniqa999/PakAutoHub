@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PakWheels - Find Used & New Cars, Bikes, Auto Parts</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="modal-overlay hide" id="modalOverlay"></div>
+  <header>
+    <a href="#" class="logo">PakWheels</a>
+    <nav>
+      <ul>
+        <li><a href="used-cars.html">Used Cars</a>  
+        </li>
+        <li><a href="#">New Cars</a>
+          <div class="dropdown">
+            <a href="#">Find New Cars</a>
+            <a href="#">Car Comparisons</a>
+            <a href="#">Reviews</a>
+            <a href="#">Prices</a>
+          </div>
+        </li>
+        <li><a href="#">Bikes</a>
+          <div class="dropdown">
+            <a href="#">Find Used Bikes</a>
+            <a href="#">Sell Your Bike</a>
+            <a href="#">Bike Comparisons</a>
+            <a href="#">New Bikes Prices</a>
+          </div>
+        </li>
+        <li><a href="#">Auto Store</a></li>
+        <li><a href="#">Videos</a></li>
+        <li><a href="#">Forums</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">More</a>
+          <div class="dropdown">
+            <a href="#">Cool Rides</a>
+            <a href="#">Car Import</a>
+            <a href="#">Car Insurance</a>
+            <a href="#">Car Finance</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <div class="auth-btns">
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn">Sign Up</button>
+      <button class="post-ad-btn" id="postAdBtn">Post an Ad</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Find Used & New Cars, Bikes and Auto Parts in Pakistan</h1>
+    <p>Search from thousands of cars, bikes, and auto parts. Buy, sell, and compare with ease on PakWheels.</p>
+    <form class="search-bar" onsubmit="event.preventDefault(); alert('Search feature coming soon!');">
+      <select>
+        <option>Used Cars</option>
+        <option>New Cars</option>
+        <option>Bikes</option>
+        <option>Auto Parts</option>
+      </select>
+      <input type="text" placeholder="Search by Make, Model or City..." required>
+      <button type="submit">Search</button>
+    </form>
+  </section>
+
+  <section class="features">
+    <div class="feature-card">
+      <h3>Used Cars</h3>
+      <p>Find the best deals from over 110,000 used cars listed for sale across Pakistan.</p>
+    </div>
+    <div class="feature-card">
+      <h3>New Cars</h3>
+      <p>See the latest models, compare prices, and read reviews of new cars in Pakistan.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Bikes</h3>
+      <p>Browse thousands of used and new bikes, compare features, and get the best prices.</p>
+    </div>
+    <div class="feature-card">
+      <h3>Auto Store</h3>
+      <p>Buy auto parts & accessories directly from PakWheels Autostore for your car or bike.</p>
+    </div>
+  </section>
+
+  <section class="browse-section">
+    <div class="category-browser">
+      <h2 class="browse-title">Explore Car Categories</h2>
+      <div class="browser-tabs">
+        <div class="browser-tab active" data-tab="category">Category</div>
+        <div class="browser-tab" data-tab="city">City</div>
+        <div class="browser-tab" data-tab="make">Make</div>
+        <div class="browser-tab" data-tab="model">Model</div>
+        <div class="browser-tab" data-tab="budget">Budget</div>
+        <div class="browser-tab" data-tab="body_type">Body Type</div>
+      </div>
+      <div class="carousel-content-wrapper">
+        <button class="carousel-arrow left" id="catCarouselPrev">&lt;</button>
+        <div class="category-carousel" id="categoryCarousel">
+          <!-- Carousel pages will be injected here by JS -->
+        </div>
+        <button class="carousel-arrow right" id="catCarouselNext">&gt;</button>
+      </div>
+      <div class="carousel-pagination" id="catCarouselPagination"></div>
+    </div>
+  </section>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('loginModal')">&times;</button>
+      <h2>Login to PakWheels</h2>
+      <div class="form-error" id="loginError"></div>
+      <form id="loginForm" autocomplete="off">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" required>
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" required>
+        <button type="submit">Login</button>
+      </form>
+      <span class="switch-link" onclick="switchModal('loginModal','signupModal')">Don't have an account? Sign Up</span>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div class="modal" id="signupModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('signupModal')">&times;</button>
+      <h2>Sign Up for PakWheels</h2>
+      <div class="form-error" id="signupError"></div>
+      <form id="signupForm" autocomplete="off">
+        <label for="signupName">Full Name</label>
+        <input type="text" id="signupName" required>
+        <label for="signupEmail">Email</label>
+        <input type="email" id="signupEmail" required>
+        <label for="signupPassword">Password</label>
+        <input type="password" id="signupPassword" required>
+        <label for="signupConfirm">Confirm Password</label>
+        <input type="password" id="signupConfirm" required>
+        <button type="submit">Sign Up</button>
+      </form>
+      <span class="switch-link" onclick="switchModal('signupModal','loginModal')">Already have an account? Login</span>
+    </div>
+  </div>
+
+  <!-- Post Ad Modal -->
+  <div class="modal" id="postAdModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal('postAdModal')">&times;</button>
+      <h2 style="font-family: 'Roboto', Arial, sans-serif; font-weight:900; color:#e4002b; letter-spacing:1px;">Post an Ad</h2>
+      <form id="postAdForm" autocomplete="off">
+        <label for="adTitle">Ad Title</label>
+        <input type="text" id="adTitle" required>
+        <label for="adCategory">Category</label>
+        <select id="adCategory" required>
+          <option value="">Select Category</option>
+          <option>Used Car</option>
+          <option>New Car</option>
+          <option>Bike</option>
+          <option>Auto Part</option>
+        </select>
+        <label for="adDesc">Description</label>
+        <textarea id="adDesc" rows="3" required></textarea>
+        <label for="adPrice">Price (PKR)</label>
+        <input type="text" id="adPrice" required>
+        <label for="adContact">Contact Number</label>
+        <input type="text" id="adContact" required>
+        <button type="submit">Submit Ad</button>
+      </form>
+    </div>
+  </div>
+
+ <!-- Discount Section -->
+    <div class="discount-section">
+        <h2>Get discounts instantly</h2>
+        <p>To save you just have to log in to your account and look for the experiences with the green or yellow color code. On your first reservation you can enjoy a <strong>10% discount</strong>.</p>
+        
+        <div class="email-signup">
+            <input type="email" class="email-input" placeholder="Enter your email">
+            <button class="get-started-btn">Get started</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Sign up for our newsletter</h3>
+                <p>Don't worry, we reserve our newsletter for important news so we only send a few updates a year.</p>
+                <button class="subscribe-btn">Subscribe</button>
+            </div>
+
+            <div class="footer-section">
+                <h3>Help and services</h3>
+                <ul>
+                    <li><a href="#">How does it work</a></li>
+                    <li><a href="#">FAQS</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>To explore</h3>
+                <ul>
+                    <li><a href="#">Accommodations</a></li>
+                    <li><a href="#">Experiences</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Other possibilities</h3>
+                <ul>
+                    <li><a href="#">Give away</a></li>
+                    <li><a href="#">subscribe</a></li>
+                </ul>
+
+                <div class="app-buttons">
+                    <a href="#" class="app-btn">
+                        <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="120" height="40" rx="8" fill="#000"/>
+                            <path d="M24.769 20.3a4.949 4.949 0 0 1 2.356-4.15c-.935-1.352-2.394-2.155-4.077-2.155-1.739 0-3.134 1.007-3.93 1.007-.825 0-2.012-1.007-3.386-1.007-1.74 0-3.386 1.007-4.282 2.702-1.804 3.134-.462 7.795 1.275 10.345.869 1.275 1.87 2.702 3.244 2.658 1.31-.05 1.8-.825 3.386-.825 1.586 0 2.031.825 3.386.825 1.419-.05 2.331-1.297 3.199-2.572 1.025-1.448 1.448-2.939 1.468-3.014-.05-.015-2.809-1.099-2.834-4.314z"/>
+                            <path d="M22 15.45c.694-.825 1.166-1.976 1.040-3.125-1.007.044-2.237.675-2.975 1.5-.65.731-1.221 1.919-1.066 3.044 1.128.088 2.281-.588 3.001-1.419z" fill="white"/>
+                            <text x="40" y="16" fill="white" font-size="6" font-family="Arial">Download on the</text>
+                            <text x="40" y="25" fill="white" font-size="10" font-family="Arial" font-weight="bold">App Store</text>
+                        </svg>
+                    </a>
+                    <a href="#" class="app-btn">
+                        <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="120" height="40" rx="8" fill="#000"/>
+                            <path d="M13.5 7.5l8 4.5-8 4.5-8-4.5 8-4.5z" fill="#EA4335"/>
+                            <path d="M21.5 12l8 4.5-8 4.5V12z" fill="#FBBC04"/>
+                            <path d="M5.5 12v9l8-4.5-8-4.5z" fill="#34A853"/>
+                            <path d="M13.5 16.5l8 4.5-8 4.5-8-4.5 8-4.5z" fill="#4285F4"/>
+                            <text x="35" y="16" fill="white" font-size="6" font-family="Arial">GET IT ON</text>
+                            <text x="35" y="25" fill="white" font-size="10" font-family="Arial" font-weight="bold">Google Play</text>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                © 2022 Justinmind
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-icon">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                    </svg>
+                </a>
+                <a href="#" class="social-icon">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+  <script>
+    // Modal logic
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const postAdBtn = document.getElementById('postAdBtn');
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    const postAdModal = document.getElementById('postAdModal');
+    const modalOverlay = document.getElementById('modalOverlay');
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
+      if(id==='postAdModal') modalOverlay.classList.remove('hide');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+      if(id==='loginModal') {
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('loginForm').reset();
+      } else if(id==='signupModal') {
+        document.getElementById('signupError').style.display = 'none';
+        document.getElementById('signupForm').reset();
+      } else if(id==='postAdModal') {
+        document.getElementById('postAdForm').reset();
+        modalOverlay.classList.add('hide');
+      }
+    }
+    function switchModal(closeId, openId) {
+      closeModal(closeId);
+      setTimeout(()=>openModal(openId), 200);
+    }
+    loginBtn.onclick = () => openModal('loginModal');
+    signupBtn.onclick = () => openModal('signupModal');
+    postAdBtn.onclick = () => openModal('postAdModal');
+    window.onclick = function(event) {
+      if(event.target === loginModal) closeModal('loginModal');
+      if(event.target === signupModal) closeModal('signupModal');
+      if(event.target === postAdModal) closeModal('postAdModal');
+      if(event.target === modalOverlay && postAdModal.classList.contains('active')) closeModal('postAdModal');
+    };
+    // Login form validation (demo only)
+    document.getElementById('loginForm').onsubmit = function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+      if(email === '' || pass === '') {
+        showError('loginError', 'Please fill in all fields.');
+        return;
+      }
+      alert('Login successful! (Demo only)');
+      closeModal('loginModal');
+    };
+    // Signup form validation (demo only)
+    document.getElementById('signupForm').onsubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const pass = document.getElementById('signupPassword').value;
+      const confirm = document.getElementById('signupConfirm').value;
+      if(!name || !email || !pass || !confirm) {
+        showError('signupError', 'Please fill in all fields.');
+        return;
+      }
+      if(pass.length < 6) {
+        showError('signupError', 'Password must be at least 6 characters.');
+        return;
+      }
+      if(pass !== confirm) {
+        showError('signupError', 'Passwords do not match.');
+        return;
+      }
+      alert('Signup successful! (Demo only)');
+      closeModal('signupModal');
+    };
+    // Post Ad form (demo only)
+    document.getElementById('postAdForm').onsubmit = function(e) {
+      e.preventDefault();
+      alert('Ad submitted! (Demo only)');
+      closeModal('postAdModal');
+    };
+    function showError(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.style.display = 'block';
+    }
+    // New Category Carousel Logic
+    const catCarousel = document.getElementById('categoryCarousel');
+    const catPrevBtn = document.getElementById('catCarouselPrev');
+    const catNextBtn = document.getElementById('catCarouselNext');
+    const pagination = document.getElementById('catCarouselPagination');
+    const tabButtons = document.querySelectorAll('.browser-tab');
+    let currentPage = 0;
+    let currentTab = 'category';
+
+    // Data for each tab
+    const tabData = {
+      category: [
+        { icon: 'ph-gear-six', label: 'Automatic cars' },
+        { icon: 'ph-globe', label: 'Imported cars' },
+        { icon: 'ph-jeep', label: 'Jeep' },
+        { icon: 'ph-plugs', label: 'Hybrid cars' },
+        { icon: 'ph-gas-pump', label: 'Diesel cars' },
+        { icon: 'ph-car', label: '1000cc cars' },
+        { icon: 'ph-car-profile', label: 'Small cars' },
+        { icon: 'ph-siren', label: 'Superdari' },
+        { icon: 'ph-clock', label: 'Urgent' },
+        { icon: 'ph-sun', label: 'Japanese cars' },
+        { icon: 'ph-car', label: '2 Door' },
+        { icon: 'ph-car', label: '3 Door' },
+      ],
+      city: [
+        { icon: 'ph-map-pin', label: 'Karachi' },
+        { icon: 'ph-map-pin', label: 'Lahore' },
+        { icon: 'ph-map-pin', label: 'Islamabad' },
+        { icon: 'ph-map-pin', label: 'Rawalpindi' },
+        { icon: 'ph-map-pin', label: 'Peshawar' },
+        { icon: 'ph-map-pin', label: 'Faisalabad' },
+        { icon: 'ph-map-pin', label: 'Multan' },
+        { icon: 'ph-map-pin', label: 'Gujranwala' },
+        { icon: 'ph-map-pin', label: 'Sialkot' },
+        { icon: 'ph-map-pin', label: 'Quetta' },
+      ],
+      make: [
+        { icon: 'ph-car', label: 'Toyota' },
+        { icon: 'ph-car', label: 'Suzuki' },
+        { icon: 'ph-car', label: 'Honda' },
+        { icon: 'ph-car', label: 'Daihatsu' },
+        { icon: 'ph-car', label: 'Mitsubishi' },
+        { icon: 'ph-car', label: 'Nissan' },
+        { icon: 'ph-car', label: 'Mercedes' },
+        { icon: 'ph-car', label: 'Hyundai' },
+        { icon: 'ph-car', label: 'BMW' },
+        { icon: 'ph-car', label: 'Kia' },
+      ],
+      model: [
+        { icon: 'ph-car', label: 'Corolla' },
+        { icon: 'ph-car', label: 'Civic' },
+        { icon: 'ph-car', label: 'Alto' },
+        { icon: 'ph-car', label: 'Cultus' },
+        { icon: 'ph-car', label: 'City' },
+        { icon: 'ph-car', label: 'Vitz' },
+        { icon: 'ph-car', label: 'Mehran' },
+        { icon: 'ph-car', label: 'Wagon R' },
+        { icon: 'ph-car', label: 'Prado' },
+        { icon: 'ph-car', label: 'Yaris' },
+      ],
+      budget: [
+        { icon: 'ph-currency-circle-dollar', label: 'Under 5 Lakh' },
+        { icon: 'ph-currency-circle-dollar', label: '5-10 Lakh' },
+        { icon: 'ph-currency-circle-dollar', label: '10-15 Lakh' },
+        { icon: 'ph-currency-circle-dollar', label: '15-20 Lakh' },
+        { icon: 'ph-currency-circle-dollar', label: '20-30 Lakh' },
+        { icon: 'ph-currency-circle-dollar', label: '30-50 Lakh' },
+        { icon: 'ph-currency-circle-dollar', label: '50+ Lakh' },
+      ],
+      body_type: [
+        { icon: 'ph-car', label: 'Sedan' },
+        { icon: 'ph-truck', label: 'SUV' },
+        { icon: 'ph-van', label: 'Van' },
+        { icon: 'ph-car', label: 'Hatchback' },
+        { icon: 'ph-motorcycle', label: 'Motorcycle' },
+        { icon: 'ph-bus', label: 'Bus' },
+        { icon: 'ph-car', label: 'Convertible' },
+        { icon: 'ph-car', label: 'Coupe' },
+        { icon: 'ph-car', label: 'Wagon' },
+        { icon: 'ph-car', label: 'Pickup' },
+      ]
+    };
+
+    function getPagesForTab(tab) {
+      const data = tabData[tab] || [];
+      const pages = [];
+      for(let i=0; i<data.length; i+=12) {
+        pages.push(data.slice(i, i+12));
+      }
+      // Always at least 2 pages, fill with empty if needed
+      while(pages.length < 2) pages.push([]);
+      // Fill up to 12 cards per page with empty slots
+      for(let p=0; p<pages.length; ++p) {
+        while(pages[p].length < 12) pages[p].push(null);
+      }
+      return pages;
+    }
+
+    function renderCarousel(tab) {
+      const pages = getPagesForTab(tab);
+      catCarousel.innerHTML = '';
+      pages.forEach(page => {
+        const pageDiv = document.createElement('div');
+        pageDiv.className = 'carousel-page';
+        page.forEach(card => {
+          if(card) {
+            pageDiv.innerHTML += `<div class="category-card"><i class="ph-bold ${card.icon}"></i><span>${card.label}</span></div>`;
+          } else {
+            pageDiv.innerHTML += `<div class="category-card" style="opacity:0;pointer-events:none;"></div>`;
+          }
+        });
+        catCarousel.appendChild(pageDiv);
+      });
+    }
+
+    function updateCarousel() {
+      catCarousel.style.transform = `translateX(-${currentPage * 100}%)`;
+      updatePagination();
+    }
+
+    function updatePagination() {
+      const pages = getPagesForTab(currentTab);
+      pagination.innerHTML = '';
+      pages.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('pagination-dot');
+        if (index === currentPage) {
+          dot.classList.add('active');
+        }
+        dot.addEventListener('click', () => {
+          currentPage = index;
+          updateCarousel();
+        });
+        pagination.appendChild(dot);
+      });
+    }
+
+    catPrevBtn.addEventListener('click', () => {
+      if (currentPage > 0) {
+        currentPage--;
+        updateCarousel();
+      }
+    });
+
+    catNextBtn.addEventListener('click', () => {
+      const pages = getPagesForTab(currentTab);
+      if (currentPage < pages.length - 1) {
+        currentPage++;
+        updateCarousel();
+      }
+    });
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentTab = btn.getAttribute('data-tab');
+        currentPage = 0;
+        renderCarousel(currentTab);
+        updateCarousel();
+      });
+    });
+
+    // Initialize
+    renderCarousel(currentTab);
+    updateCarousel();
+
+    // Fade-in animation for category-browser
+    function handleCategoryBrowserAnimation() {
+      const section = document.querySelector('.category-browser');
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        section.classList.add('visible');
+      } else {
+        section.classList.remove('visible');
+      }
+    }
+    window.addEventListener('scroll', handleCategoryBrowserAnimation);
+    window.addEventListener('resize', handleCategoryBrowserAnimation);
+    document.addEventListener('DOMContentLoaded', handleCategoryBrowserAnimation);
+
+    // Animate hero text on load
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelector('.hero h1').classList.add('visible');
+      document.querySelector('.hero p').classList.add('visible');
+    });
+  </script>
+</body>
+</html>
